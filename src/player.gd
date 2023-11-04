@@ -62,6 +62,7 @@ func _physics_process(delta): # реализация управления и в�
 #  код ниже обрабатывает атаку как игроком так и получение атак
 func take_damage(damage):
 	taking_damage = true
+	velocity.x = 0
 	current_health -= damage
 	if current_health <= 0:
 		death()
@@ -79,8 +80,10 @@ func attacking(body):
 			body.take_damage(attack_force_value)
 
 func _on_attack_zone_body_entered(body):
-	enemy_in_range = true
-	enemy = body
+	if body.name == "Knight":
+		enemy_in_range = true
+		enemy = body
 
 func _on_attack_zone_body_exited(body):
-	enemy_in_range = false
+	if body.name == "Knight":
+		enemy_in_range = false

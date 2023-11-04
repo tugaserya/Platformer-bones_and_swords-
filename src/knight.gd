@@ -63,7 +63,7 @@ func  death():  # реализация смерти
 
 
 func _on_deal_damage_body_entered(body): # нанесение урона игроку 
-	if body.name == "Player" and alive and taking_damage == false:
+	if alive and body.name == "Player" and taking_damage == false and animation.animation != "death":
 		body.add_to_group("Player")
 		await get_tree().create_timer(0.5).timeout
 		animation.play("attak")
