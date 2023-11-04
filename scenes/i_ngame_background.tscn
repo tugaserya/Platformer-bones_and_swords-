@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://1xdrxiobiygm"]
+
+[ext_resource type="Script" path="res://src/i_ngame_background.gd" id="1_femxk"]
+[ext_resource type="Texture2D" uid="uid://ds3hgpvnmigdu" path="res://Sprites/Environment/s_clouds.png" id="1_x030y"]
+
+[node name="INgame_Background" type="ParallaxBackground"]
+script = ExtResource("1_femxk")
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.2, 0.2)
+motion_mirroring = Vector2(1150, 0)
+
+[node name="SClouds" type="Sprite2D" parent="ParallaxLayer"]
+position = Vector2(575.5, 110.5)
+scale = Vector2(1.79844, 1.56429)
+texture = ExtResource("1_x030y")

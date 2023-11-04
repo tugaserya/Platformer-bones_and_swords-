@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://dtlp68qep0k0w"]
+
+[ext_resource type="Texture2D" uid="uid://ds3hgpvnmigdu" path="res://Sprites/Environment/s_clouds.png" id="1_a2fm8"]
+[ext_resource type="Script" path="res://Sprites/back_ground.gd" id="1_m6lkk"]
+[ext_resource type="Texture2D" uid="uid://do85wgh1qovc5" path="res://Sprites/Environment/s_graves.png" id="2_svlk4"]
+
+[node name="BackGround" type="ParallaxBackground"]
+script = ExtResource("1_m6lkk")
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.2, 0.2)
+motion_mirroring = Vector2(1152, 0)
+
+[node name="SClouds" type="Sprite2D" parent="ParallaxLayer"]
+position = Vector2(576, 76.5)
+scale = Vector2(1.8, 1.07857)
+texture = ExtResource("1_a2fm8")
+
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="."]
+motion_mirroring = Vector2(1143.97, 0)
+
+[node name="SGraves" type="Sprite2D" parent="ParallaxLayer2"]
+position = Vector2(577.143, 541.5)
+scale = Vector2(1.80357, 1.79286)
+texture = ExtResource("2_svlk4")

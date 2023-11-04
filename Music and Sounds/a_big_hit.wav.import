@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dpg6dp52y38vm"
+path="res://.godot/imported/a_big_hit.wav-097930dc31b91124294bc3c3a419cce4.sample"
+
+[deps]
+
+source_file="res://Music and Sounds/a_big_hit.wav"
+dest_files=["res://.godot/imported/a_big_hit.wav-097930dc31b91124294bc3c3a419cce4.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0
