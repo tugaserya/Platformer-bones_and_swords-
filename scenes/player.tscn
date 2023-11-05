@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://dguhwy6tn12is"]
+[gd_scene load_steps=36 format=3 uid="uid://dguhwy6tn12is"]
 
 [ext_resource type="Texture2D" uid="uid://b5vpxlw75bom1" path="res://Sprites/Skeleton/s_skeleton_run_strip6.png" id="1_7bbtr"]
 [ext_resource type="Script" path="res://src/player.gd" id="1_46lhe"]
@@ -6,6 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://dh13nmtixhvmx" path="res://Sprites/Skeleton/s_skeleton_roll_strip7.png" id="1_tcldq"]
 [ext_resource type="Texture2D" uid="uid://cl0gfxlrbngrr" path="res://Sprites/Skeleton/s_skeleton_attack_one_strip5.png" id="4_u7ouo"]
 [ext_resource type="Texture2D" uid="uid://rplcuk3l6y16" path="res://Sprites/Skeleton/s_skeleton_hitstun.png" id="5_fwj2b"]
+[ext_resource type="Texture2D" uid="uid://brnx0oigkelqn" path="res://Sprites/Skeleton/stroke_hp_bar.png" id="7_3fl6v"]
+[ext_resource type="Texture2D" uid="uid://by18kvbjpk82e" path="res://Sprites/Skeleton/hp_bar.png" id="8_8pjp4"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qxiut"]
 custom_solver_bias = 0.953
@@ -200,29 +202,42 @@ animations = [{
 "speed": 4.0
 }]
 
+[sub_resource type="GDScript" id="GDScript_d46nq"]
+resource_name = "health.bar"
+script/source = "extends TextureProgressBar
+
+# полоска жизни игрока
+func _process(delta):
+	self.value = $\"../../..\".current_health
+"
+
 [sub_resource type="GDScript" id="GDScript_64vtf"]
 script/source = "extends Label
 
 # значение здоровья игрока
 func _process(delta):
-	text = \"HP: \" + str($\"../../..\".current_health) + \"/\" + str($\"../../..\".max_health)
+	text = str($\"../../..\".current_health) + \" / \" + str($\"../../..\".max_health)
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fo7xi"]
 size = Vector2(46, 4)
 
 [node name="Player" type="CharacterBody2D"]
+collision_layer = 3
 script = ExtResource("1_46lhe")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+light_mask = 3
 shape = SubResource("CapsuleShape2D_qxiut")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(-3, -6)
 scale = Vector2(0.825, 0.785714)
 sprite_frames = SubResource("SpriteFrames_l1ywu")
-animation = &"stunhit"
+animation = &"Rolling"
 autoplay = "idle"
+frame = 6
+frame_progress = 1.0
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(3, 3)
@@ -234,12 +249,23 @@ drag_horizontal_enabled = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="Camera2D"]
 
+[node name="health_bar" type="TextureProgressBar" parent="Camera2D/CanvasLayer"]
+offset_left = 52.0
+offset_top = 587.0
+offset_right = 252.0
+offset_bottom = 607.0
+value = 100.0
+texture_under = ExtResource("7_3fl6v")
+texture_progress = ExtResource("8_8pjp4")
+texture_progress_offset = Vector2(3, 3)
+script = SubResource("GDScript_d46nq")
+
 [node name="HP" type="Label" parent="Camera2D/CanvasLayer"]
-offset_left = 17.0
-offset_top = 579.0
-offset_right = 142.0
-offset_bottom = 637.0
-theme_override_font_sizes/font_size = 40
+offset_left = 116.0
+offset_top = 585.0
+offset_right = 140.0
+offset_bottom = 611.0
+theme_override_font_sizes/font_size = 16
 text = "HP"
 script = SubResource("GDScript_64vtf")
 

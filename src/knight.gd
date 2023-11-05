@@ -1,88 +1,79 @@
 extends CharacterBody2D
 
-const SPEED = 200.0 # скорсть движения для противника
-
+const SPEED = 100.0
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var animation = $AnimatedSprite2D 
-
-var chase = false # определение базовых характеристик и состояний противника
-var Dead = false
+var chase = false
 var alive = true
 var max_health = 100
 var current_health = max_health
 var taking_damage = false
+var is_attacking = false
+@onready var player = $"../../Player2/Player"
 
-func _physics_process(delta): # реализация преследования игрока и взаимодействий с объектами
-	if not is_on_floor():# гравитация 
+func _ready():
+	add_to_group("Knights")
+
+func _physics_process(delta):
+	if not is_on_floor():
 		velocity.y += gravity * delta
-		
-	var player = $"../../Player2/Player"
-	var direction = (player.position - self.position).normalized() # определения направления противника взависимости от позиции игрока
-	
-	if alive and animation.animation != "attak" and taking_damage == false: # ходьба и разворот от напраления
-		if chase:
-			velocity.x = direction.x * SPEED
-			animation.play("walk")
-		else:
-			velocity.x = 0
-			animation.play("idle")
-		
-		if direction.x < 0:
-			$AnimatedSprite2D.flip_h = true
-		elif direction.x > 0:
-			$AnimatedSprite2D.flip_h = false
-			
+	if alive and animation.animation != "attak" and not taking_damage:
+		var direction = (player.position - self.position).normalized()
+		velocity.x = SPEED * direction.x if chase else 0
+		animation.play("walk" if chase else "idle")
+		$AnimatedSprite2D.flip_h = direction.x < 0
 	move_and_slide()
 
-
-
-
-
-func _on_agressive_area_body_entered(body): # преследование игрока
-	if body.name == "Player":
+func _on_agressive_area_body_entered(body):
+	if body.name == "Player" and alive:
 		chase = true
 
 func _on_agressive_area_body_exited(body):
-	if body.name == "Player":
+	if body.name == "Player" and alive:
 		chase = false
 
-
-
-func _on_death_body_entered(body): # смерть противника если игрок прыгнулна него
-	if body.name == "Player":
+func _on_death_body_entered(body):
+	if body.name == "Player" and alive:
 		body.velocity.y -= 300
 		death()
 
-func  death():  # реализация смерти
+func death():
 	alive = false
 	current_health = 0
+	remove_from_group("Knights")
+	velocity.x = 0
 	animation.play("death")
 	await animation.animation_finished
 	queue_free()
 
-
-
-func _on_deal_damage_body_entered(body): # нанесение урона игроку 
-	if alive and body.name == "Player" and taking_damage == false and animation.animation != "death":
+func _on_deal_damage_body_entered(body):
+	if alive and body.name == "Player" and not taking_damage and not is_attacking:
 		body.add_to_group("Player")
-		await get_tree().create_timer(0.5).timeout
-		animation.play("attak")
-		await get_tree().create_timer(0.4).timeout
-		if body.is_in_group("Player"):
-			body.take_damage(20)
-		await animation.animation_finished
-		animation.play("idle")
-		if alive and $Deal_damage.overlaps_body($"../../Player2/Player"):
-			await get_tree().create_timer(1).timeout
-			_on_deal_damage_body_entered($"../../Player2/Player")
+		if alive and $Deal_damage.overlaps_body(player) and not taking_damage:
+			await get_tree().create_timer(0.8).timeout
+			attacking(player)
+
 func _on_deal_damage_body_exited(body):
-	if body.name == "Player" and alive:
+	if alive and body.name == "Player":
 		body.remove_from_group("Player")
 
+func attacking(body):
+	if alive and not taking_damage:
+		is_attacking = true
+		velocity.x = 0
+		animation.play("attak")
+		if body.is_in_group("Player") and not taking_damage:
+			await get_tree().create_timer(0.4).timeout
+			body.take_damage(20, sign(self.position.x - body.position.x))
+		await animation.animation_finished
+		animation.play("idle")
+		await get_tree().create_timer(0.5).timeout
+		is_attacking = false
+		_on_deal_damage_body_entered(player)
 
-
-func take_damage(damage): # получение урона
+func take_damage(damage, direction):
 	taking_damage = true
+	position.x -= direction * 10
 	current_health -= damage
 	if current_health <= 0:
 		death()

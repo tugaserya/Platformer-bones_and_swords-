@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://cirejf6oedfne"]
+[gd_scene load_steps=7 format=3 uid="uid://cirejf6oedfne"]
 
 [ext_resource type="PackedScene" uid="uid://dguhwy6tn12is" path="res://scenes/player.tscn" id="1_t38in"]
 [ext_resource type="Texture2D" uid="uid://bysiyotgeom0k" path="res://Sprites/Tiles/Dungeon Tile Set.png" id="3_nmo2j"]
 [ext_resource type="PackedScene" uid="uid://bx4mnycuab46x" path="res://scenes/knight.tscn" id="4_eayt7"]
+[ext_resource type="PackedScene" uid="uid://b8a6dg3gbn4xi" path="res://scenes/coin.tscn" id="4_wtagg"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6ixji"]
 texture = ExtResource("3_nmo2j")
@@ -417,7 +418,7 @@ texture = ExtResource("3_nmo2j")
 12:15/0/physics_layer_0/angular_velocity = 0.0
 
 [sub_resource type="TileSet" id="TileSet_1yn60"]
-physics_layer_0/collision_layer = 1
+physics_layer_0/collision_layer = 3
 sources/0 = SubResource("TileSetAtlasSource_6ixji")
 
 [node name="Level" type="Node2D"]
@@ -436,3 +437,9 @@ position = Vector2(294, 570)
 
 [node name="Knight" parent="Mobs" instance=ExtResource("4_eayt7")]
 position = Vector2(763, 565)
+
+[node name="Knight2" parent="Mobs" instance=ExtResource("4_eayt7")]
+position = Vector2(792, 564)
+
+[node name="Coin" parent="." instance=ExtResource("4_wtagg")]
+position = Vector2(391, 579)
