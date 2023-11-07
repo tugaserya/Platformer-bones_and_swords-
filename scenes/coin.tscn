@@ -133,6 +133,7 @@ animations = [{
 }]
 
 [node name="Coin" type="Area2D"]
+collision_mask = 7
 script = ExtResource("1_g7o4h")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
