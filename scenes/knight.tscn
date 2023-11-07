@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://bx4mnycuab46x"]
+[gd_scene load_steps=43 format=3 uid="uid://bx4mnycuab46x"]
 
 [ext_resource type="Texture2D" uid="uid://c55hb7752s1vq" path="res://Sprites/Knight/s_knight_idle_strip3.png" id="1_1g64c"]
 [ext_resource type="Script" path="res://src/knight.gd" id="1_56lbm"]
@@ -95,9 +95,17 @@ region = Rect2(40, 0, 40, 48)
 atlas = ExtResource("1_1g64c")
 region = Rect2(80, 0, 40, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_hlfaa"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_gp142"]
 atlas = ExtResource("5_to27p")
 region = Rect2(0, 0, 40, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lqqhc"]
+atlas = ExtResource("5_to27p")
+region = Rect2(40, 0, 40, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pp82n"]
+atlas = ExtResource("5_to27p")
+region = Rect2(80, 0, 40, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xvp0f"]
 atlas = ExtResource("2_al3qw")
@@ -197,23 +205,23 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_hlfaa")
+"texture": SubResource("AtlasTexture_gp142")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_hlfaa")
+"texture": SubResource("AtlasTexture_lqqhc")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_hlfaa")
+"texture": SubResource("AtlasTexture_pp82n")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_hlfaa")
+"texture": SubResource("AtlasTexture_lqqhc")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_hlfaa")
+"texture": SubResource("AtlasTexture_gp142")
 }],
 "loop": false,
 "name": &"stunhit",
-"speed": 6.0
+"speed": 16.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -263,6 +271,8 @@ scale = Vector2(0.839474, 0.916667)
 sprite_frames = SubResource("SpriteFrames_swsqd")
 animation = &"stunhit"
 autoplay = "idle"
+frame = 4
+frame_progress = 1.0
 
 [node name="Agressive_area" type="Area2D" parent="."]
 
@@ -285,7 +295,8 @@ offset_left = -13.0
 offset_top = -20.0
 offset_right = 12.0
 offset_bottom = -16.0
-value = 100.0
+max_value = 150.0
+value = 150.0
 texture_over = ExtResource("7_or2yu")
 texture_progress = ExtResource("8_2n7il")
 script = SubResource("GDScript_xib8k")

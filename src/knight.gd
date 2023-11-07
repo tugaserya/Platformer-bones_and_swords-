@@ -5,7 +5,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var animation = $AnimatedSprite2D 
 var chase = false
 var alive = true
-var max_health = 100
+var max_health = 150
 var current_health = max_health
 var taking_damage = false
 var is_attacking = false
@@ -45,6 +45,7 @@ func death():
 	animation.play("death")
 	await animation.animation_finished
 	queue_free()
+	
 
 func _on_deal_damage_body_entered(body):
 	if alive and body.name == "Player" and not taking_damage and not is_attacking:
@@ -62,8 +63,8 @@ func attacking(body):
 		is_attacking = true
 		velocity.x = 0
 		animation.play("attak")
-		if body.is_in_group("Player") and not taking_damage:
-			await get_tree().create_timer(0.4).timeout
+		await get_tree().create_timer(0.4).timeout
+		if body.is_in_group("Player") and not taking_damage and alive:
 			body.take_damage(20, sign(self.position.x - body.position.x))
 		await animation.animation_finished
 		animation.play("idle")
