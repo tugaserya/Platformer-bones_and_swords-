@@ -17,6 +17,9 @@ var dodging = false
 
 @onready var animation = $AnimatedSprite2D
 
+func _ready():
+	add_to_group("entity")
+
 func _physics_process(delta):
 	if not is_on_floor():
 		velocity.y += gravity * delta
@@ -69,6 +72,9 @@ func dodge(direction):
 		$".".set_collision_layer_value(1,true)
 		$".".set_collision_layer_value(2,true)
 		$".".set_collision_layer_value(3,false)
+		velocity.x = 0
+		animation.play("idle")
+		await get_tree().create_timer(0.2).timeout
 		dodging = false
 
 func take_damage(damage, direction):
@@ -79,6 +85,7 @@ func take_damage(damage, direction):
 		current_health -= damage
 		if current_health <= 0:
 			queue_free()
+			remove_from_group("entity")
 			get_tree().change_scene_to_file("res://scenes/node_2d.tscn")
 		animation.play("stunhit")
 		await animation.animation_finished

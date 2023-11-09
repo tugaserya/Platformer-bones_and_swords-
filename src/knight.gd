@@ -13,6 +13,7 @@ var is_attacking = false
 
 func _ready():
 	add_to_group("Knights")
+	add_to_group("entity")
 
 func _physics_process(delta):
 	if not is_on_floor():
@@ -35,16 +36,17 @@ func _on_agressive_area_body_exited(body):
 func _on_death_body_entered(body):
 	if body.name == "Player" and alive:
 		body.velocity.y -= 300
-		death()
+		take_damage(50, 0)
 
 func death():
 	alive = false
 	current_health = 0
-	remove_from_group("Knights")
 	velocity.x = 0
 	animation.play("death")
 	await animation.animation_finished
 	queue_free()
+	remove_from_group("Knights")
+	remove_from_group("entity")
 	
 
 func _on_deal_damage_body_entered(body):
@@ -74,6 +76,7 @@ func attacking(body):
 
 func take_damage(damage, direction):
 	taking_damage = true
+	velocity.x = 0
 	position.x -= direction * 10
 	current_health -= damage
 	if current_health <= 0:
