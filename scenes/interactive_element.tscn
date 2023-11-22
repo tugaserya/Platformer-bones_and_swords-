@@ -417,13 +417,9 @@ sources/0 = SubResource("TileSetAtlasSource_urlip")
 resource_name = "bouncer"
 script/source = "extends TileMap
 
-
-
-
 func _on_bounce_body_entered(body):
 	if body and body.is_in_group(\"entity\"):
-		body.velocity.y = -400
-
+		body.velocity.y = -500
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ouu1s"]
@@ -443,4 +439,3 @@ script = SubResource("GDScript_0y1yq")
 shape = SubResource("RectangleShape2D_ouu1s")
 
 [connection signal="body_entered" from="TileMap/bounce" to="TileMap" method="_on_bounce_body_entered"]
-[connection signal="body_exited" from="TileMap/bounce" to="TileMap" method="_on_bounce_body_exited"]

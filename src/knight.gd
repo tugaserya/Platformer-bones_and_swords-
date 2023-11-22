@@ -35,7 +35,7 @@ func _on_agressive_area_body_exited(body):
 
 func _on_death_body_entered(body):
 	if body.name == "Player" and alive:
-		body.velocity.y -= 300
+		body.velocity.y = -300
 		take_damage(50, 0)
 
 func death():
@@ -43,6 +43,7 @@ func death():
 	current_health = 0
 	velocity.x = 0
 	animation.play("death")
+	PlayerStats.change_score(100)
 	await animation.animation_finished
 	queue_free()
 	remove_from_group("Knights")

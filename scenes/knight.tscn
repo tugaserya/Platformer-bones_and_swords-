@@ -241,8 +241,9 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_g4li8"]
-radius = 106.019
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ps3ku"]
+radius = 30.0
+height = 136.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sldar"]
 size = Vector2(7, 1.25)
@@ -253,7 +254,7 @@ size = Vector2(52, 4)
 [sub_resource type="GDScript" id="GDScript_xib8k"]
 script/source = "extends TextureProgressBar
 
-# полоска жизни противника
+
 func _process(delta):
 	self.value = $\"..\".current_health
 "
@@ -277,7 +278,8 @@ frame_progress = 1.0
 [node name="Agressive_area" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Agressive_area"]
-shape = SubResource("CircleShape2D_g4li8")
+rotation = 1.57074
+shape = SubResource("CapsuleShape2D_ps3ku")
 
 [node name="Death" type="Area2D" parent="."]
 

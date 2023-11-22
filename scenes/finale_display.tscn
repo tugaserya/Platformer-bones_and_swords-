@@ -1,0 +1,41 @@
+[gd_scene load_steps=3 format=3 uid="uid://bph422wsldhdq"]
+
+[sub_resource type="GDScript" id="GDScript_6ni6s"]
+script/source = "extends Label
+
+func _process(delta):
+	text = \"Total Score:\\n\" + str(PlayerStats.Score)
+"
+
+[sub_resource type="GDScript" id="GDScript_8ig70"]
+resource_name = "BackToMenu"
+script/source = "extends Button
+
+func _on_pressed():
+	get_tree().change_scene_to_file(\"res://node_2d.tscn\")
+	PlayerStats.Score = 0
+	PlayerStats.value_of_money = 0
+	PlayerStats.max_health = 100
+	PlayerStats.attack_force_value = 50
+	PlayerStats.current_health = PlayerStats.max_health
+"
+
+[node name="Finale_display" type="Node2D"]
+
+[node name="Total Score" type="Label" parent="."]
+offset_left = 528.0
+offset_top = 189.0
+offset_right = 614.0
+offset_bottom = 215.0
+text = "Total Score"
+script = SubResource("GDScript_6ni6s")
+
+[node name="Button" type="Button" parent="."]
+offset_left = 483.0
+offset_top = 454.0
+offset_right = 661.0
+offset_bottom = 510.0
+text = "Back to Main Menu"
+script = SubResource("GDScript_8ig70")
+
+[connection signal="pressed" from="Button" to="Button" method="_on_pressed"]

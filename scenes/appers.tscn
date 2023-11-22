@@ -1,0 +1,57 @@
+[gd_scene load_steps=6 format=3 uid="uid://dtaacwbp7k4pu"]
+
+[ext_resource type="Texture2D" uid="uid://b6ema5ugyfyqk" path="res://Sprites/Environment/s_grave_strip3.png" id="1_3lc06"]
+[ext_resource type="Script" path="res://src/appers.gd" id="1_d8q0d"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a1vb6"]
+size = Vector2(7, 23)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gjkt1"]
+size = Vector2(8, 23)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ocd5m"]
+size = Vector2(8, 23)
+
+[node name="Appers" type="Node2D"]
+script = ExtResource("1_d8q0d")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -16)
+texture = ExtResource("1_3lc06")
+
+[node name="Button" type="Button" parent="."]
+texture_filter = 1
+offset_left = -7.0
+offset_top = -25.0
+offset_right = 7.0
+offset_bottom = -3.0
+theme_override_font_sizes/font_size = 10
+text = "+"
+
+[node name="up_damage" type="Area2D" parent="."]
+position = Vector2(0, -8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="up_damage"]
+position = Vector2(-20.5, 0.5)
+shape = SubResource("RectangleShape2D_a1vb6")
+
+[node name="up_max_hp" type="Area2D" parent="."]
+position = Vector2(0, -8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="up_max_hp"]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_gjkt1")
+
+[node name="up_current_hp" type="Area2D" parent="."]
+position = Vector2(0, -8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="up_current_hp"]
+position = Vector2(20, 0.5)
+shape = SubResource("RectangleShape2D_ocd5m")
+
+[connection signal="body_entered" from="up_damage" to="." method="_on_up_damage_body_entered"]
+[connection signal="body_exited" from="up_damage" to="." method="_on_up_damage_body_exited"]
+[connection signal="body_entered" from="up_max_hp" to="." method="_on_up_max_hp_body_entered"]
+[connection signal="body_exited" from="up_max_hp" to="." method="_on_up_max_hp_body_exited"]
+[connection signal="body_entered" from="up_current_hp" to="." method="_on_up_current_hp_body_entered"]
+[connection signal="body_exited" from="up_current_hp" to="." method="_on_up_current_hp_body_exited"]

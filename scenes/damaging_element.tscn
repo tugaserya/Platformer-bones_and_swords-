@@ -413,14 +413,16 @@ sources/0 = SubResource("TileSetAtlasSource_8wjyf")
 resource_name = "spyke"
 script/source = "extends TileMap
 
-var body_in_zone = false
+var damaging = false
 
 func _on_damage_zone_body_entered(body):
 	if body and body.is_in_group(\"entity\"):
+		damaging = true
 		var damage_value = 20
 		var direction = 0
 		body.take_damage(damage_value, direction)
 		await get_tree().create_timer(1.5).timeout
+		damaging = false
 		if body == null: return
 		elif body and $\"../Damage_zone\".overlaps_body(body):
 			_on_damage_zone_body_entered(body)

@@ -6,9 +6,6 @@ const JUMP_VELOCITY = -400.0
 
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
-var max_health = 100
-var current_health = max_health
-var attack_force_value = 50
 var taking_damage = false
 var enemy_in_range = false
 var enemy
@@ -37,7 +34,7 @@ func _physics_process(delta):
 		velocity.x = 0
 		animation.play("attak")
 		if enemy_in_range and is_instance_valid(enemy):
-			get_tree().call_group("can_be_attacked", "take_damage", attack_force_value, sign(self.position.x - enemy.position.x))
+			get_tree().call_group("can_be_attacked", "take_damage", PlayerStats.attack_force_value, sign(self.position.x - enemy.position.x))
 		await animation.animation_finished
 		player_attacking = false
 		
@@ -82,11 +79,11 @@ func take_damage(damage, direction):
 		taking_damage = true
 		velocity.x = 0
 		position.x -= direction * 15
-		current_health -= damage
-		if current_health <= 0:
+		PlayerStats.current_health -= damage
+		if PlayerStats.current_health <= 0:
 			queue_free()
 			remove_from_group("entity")
-			get_tree().change_scene_to_file("res://scenes/node_2d.tscn")
+			get_tree().change_scene_to_file("res://scenes/finale_display.tscn")
 		animation.play("stunhit")
 		await animation.animation_finished
 		taking_damage = false
@@ -102,3 +99,6 @@ func _on_attack_zone_body_exited(body):
 		enemy_in_range = false
 		enemy = null
 		body.remove_from_group("can_be_attacked")
+
+func change_value_of_money(incresing_value):
+	PlayerStats.value_of_money += incresing_value

@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://dguhwy6tn12is"]
+[gd_scene load_steps=42 format=3 uid="uid://dguhwy6tn12is"]
 
 [ext_resource type="Texture2D" uid="uid://b5vpxlw75bom1" path="res://Sprites/Skeleton/s_skeleton_run_strip6.png" id="1_7bbtr"]
 [ext_resource type="Script" path="res://src/player.gd" id="1_46lhe"]
@@ -8,6 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://rplcuk3l6y16" path="res://Sprites/Skeleton/s_skeleton_hitstun.png" id="5_fwj2b"]
 [ext_resource type="Texture2D" uid="uid://brnx0oigkelqn" path="res://Sprites/Skeleton/stroke_hp_bar.png" id="7_3fl6v"]
 [ext_resource type="Texture2D" uid="uid://by18kvbjpk82e" path="res://Sprites/Skeleton/hp_bar.png" id="8_8pjp4"]
+[ext_resource type="Script" path="res://src/money.gd" id="9_r08b4"]
+[ext_resource type="Script" path="res://src/Score.gd" id="10_kas4s"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qxiut"]
 custom_solver_bias = 0.953
@@ -222,8 +224,8 @@ script/source = "extends TextureProgressBar
 
 # полоска жизни игрока
 func _process(delta):
-	self.max_value = $\"../../../..\".max_health
-	self.value = $\"../../../..\".current_health
+	self.max_value = PlayerStats.max_health
+	self.value = PlayerStats.current_health
 "
 
 [sub_resource type="GDScript" id="GDScript_64vtf"]
@@ -231,7 +233,7 @@ script/source = "extends Label
 
 # значение здоровья игрока
 func _process(delta):
-	text = str($\"../../../..\".current_health) + \" / \" + str($\"../../../..\".max_health)
+	text = str(PlayerStats.current_health) + \" / \" + str(PlayerStats.max_health)
 "
 
 [sub_resource type="GDScript" id="GDScript_ll6kj"]
@@ -240,7 +242,7 @@ script/source = "extends Label
 
 
 func _process(delta):
-	text = \"ATK: \" + str($\"../../../..\".attack_force_value)
+	text = \"ATK: \" + str(PlayerStats.attack_force_value)
 "
 
 [sub_resource type="GDScript" id="GDScript_d5yp1"]
@@ -249,7 +251,7 @@ script/source = "extends Label
 
 
 func _process(delta):
-	text = \"MAX HP: \" + str($\"../../../..\".max_health)
+	text = \"MAX HP: \" + str(PlayerStats.max_health)
 "
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fo7xi"]
@@ -276,6 +278,11 @@ frame_progress = 1.0
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(3, 3)
 process_callback = 0
+limit_left = 0
+limit_top = 272
+limit_right = 943
+limit_bottom = 608
+limit_smoothed = true
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
 rotation_smoothing_speed = 10.0
@@ -329,6 +336,22 @@ offset_right = 113.0
 offset_bottom = 130.0
 text = "MAX_HP"
 script = SubResource("GDScript_d5yp1")
+
+[node name="money" type="Label" parent="Camera2D/Stats/Value_of_stats"]
+offset_left = 48.0
+offset_top = 128.0
+offset_right = 88.0
+offset_bottom = 154.0
+text = "$"
+script = ExtResource("9_r08b4")
+
+[node name="Score" type="Label" parent="Camera2D/Stats/Value_of_stats"]
+offset_left = 48.0
+offset_top = 152.0
+offset_right = 96.0
+offset_bottom = 178.0
+text = "Score:"
+script = ExtResource("10_kas4s")
 
 [node name="attack_zone" type="Area2D" parent="."]
 
